@@ -33,13 +33,14 @@ need are:
 Examples:
 
 Timestream query:
-
+```
 select Participant,
        count(time) as Occurences,
        min(time) start_time,
        max(time) end_time
 from "Clubhouse"."participants"
 group by Participant
+```
 
 Provides:
 
