@@ -6,22 +6,17 @@ such as average listener/participant time, max users, average users, regulars,
 and more. This is a quick hack project to test a proof of concept to generate
 this data off of screenshots.
 
-1.  Periodically I screen shot the room during a Clubhouse event
+1.  Periodically screenshot the room during a Clubhouse event
 
-2.  I upload these screenshots to a S3 bucket
+2.  Upload screenshots to a S3 bucket
 
-3.  Amazon Textract extracts the timestamp of the phone and all names of users
-    in the event
+3.  Run this tool. Amazon Textract extracts the timestamp of the screenshot in the image and all usernames active in the event.
 
-4.  This data populates a timeseries database in Amazon Timestream
+4.  Extracted data populates a timeseries database in Amazon Timestream
 
-5.  This data provides when a user was first seen, last seen, average count in
-    the room, max count in the room, and additional metrics that may be of
-    interest.
+5.  Timestream is populated with enough data to provide when a user was first seen, last seen, average count in the room, max count in the room, and additional metrics that may be of interest.
 
-Currently there is no cloudformation to populate the infrastructure which I may
-add. I am crossing my fingers that analytics gets released and I can just
-archive this project. If you are interested in using it, the core pieces you
+Currently there is no cloudformation to populate the infrastructure. I may spend the time to add this, but ultimately this is just a quick hack side project. I am crossing my fingers that analytics gets released and I can just archive this project. If you are interested in using it, the core pieces you
 need are:
 
 1.  AWS Account
