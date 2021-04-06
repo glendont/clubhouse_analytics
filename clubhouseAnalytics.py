@@ -15,34 +15,36 @@ TABLE_NAME = "participants"
 
 USER = 1
 
+
 def write(ActiveUser):
-  session = boto3.Session()
-  write_client = session.client('timestream-write', config=Config(
-      read_timeout=20, max_pool_connections=5000, retries={'max_attempts': 10}))
-  query_client = session.client('timestream-query')
+    session = boto3.Session()
+    write_client = session.client('timestream-write', config=Config(
+        read_timeout=20, max_pool_connections=5000, retries={'max_attempts': 10}))
+    query_client = session.client('timestream-query')
 
-  dimensions = [
-      {'Name': 'room', 'Value': "AWS Startups"},
-      {'Name': 'Participant', 'Value': "Mackenzie"}
-  ]
+    dimensions = [
+        {'Name': 'room', 'Value': "AWS Startups"},
+        {'Name': 'Participant', 'Value': "Mackenzie"}
+    ]
 
-  records = []
-  current_time = int(time.time() * 1000)
+    records = []
+    current_time = int(time.time() * 1000)
 
-  record = {
-      'Time': str(current_time),
-      'Dimensions': dimensions,
-      'MeasureName': "Active",
-      'MeasureValue': 1,
-      'MeasureValueType': 'DOUBLE'
-  }
+    record = {
+        'Time': str(current_time),
+        'Dimensions': dimensions,
+        'MeasureName': "Active",
+        'MeasureValue': 1,
+        'MeasureValueType': 'DOUBLE'
+    }
 
-  print("Room {}".format(
-      len(records), USER))
+    print("Room {}".format(
+        len(records), USER))
 
-  #if len(records) > 0:
-  write_records(records)
-  records = []
+    # if len(records) > 0:
+    write_records(records)
+    records = []
+
 
 def write_records(records):
     try:
@@ -56,25 +58,27 @@ def write_records(records):
     except Exception as err:
         print("Error:", err)
 
-def extractText(file):
-  # Call Amazon Textract
-  response = textract.detect_document_text(
-      Document={
-          'S3Object': {
-              'Bucket': s3BucketName,
-              'Name': file.key
-          }
-      })
 
-  print("\nText\n========")
-  text = ""
-  skipText = ["All rooms", "Leave quietly", "Others in the room", "+"]
-  for item in response["Blocks"]:
-      if item["BlockType"] == "LINE":
-          if item["Text"] not in skipText:
-            write(item["Text"])
-            print ('' +  item["Text"] + '')
-            text = text + " " + item["Text"]
+def extractText(file):
+    # Call Amazon Textract
+    response = textract.detect_document_text(
+        Document={
+            'S3Object': {
+                'Bucket': s3BucketName,
+                'Name': file.key
+            }
+        })
+
+    print("\nText\n========")
+    text = ""
+    skipText = ["All rooms", "Leave quietly", "Others in the room", "+"]
+    for item in response["Blocks"]:
+        if item["BlockType"] == "LINE":
+            if item["Text"] not in skipText:
+                write(item["Text"])
+                print('' + item["Text"] + '')
+                text = text + " " + item["Text"]
+
 
 for file in my_bucket.objects.all():
     extractText(file)
