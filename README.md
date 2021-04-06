@@ -1,4 +1,4 @@
-clubhouse_analytics
+Clubhouse Analytics
 ===================
 
 As of April 2021, Clubhouse does not expose any analytics to show basic stats
