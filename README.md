@@ -29,3 +29,28 @@ need are:
 2.  Textract, S3, Timestream
 
 3.  Quicksight/Grafana if you want to create dashboards
+
+Examples:
+
+Timestream query:
+
+select Participant,
+       count(time) as Occurences,
+       min(time) start_time,
+       max(time) end_time
+from "Clubhouse"."participants"
+group by Participant
+
+Provides:
+
+Participant Occurences start_time end_time
+Chandra	3	2021-04-01 10:56:00.000000000	2021-04-01 11:22:00.000000000
+Sunny	1	2021-04-01 10:45:00.000000000	2021-04-01 10:45:00.000000000
+Alexander	2	2021-04-01 10:45:00.000000000	2021-04-01 11:22:00.000000000
+Sidney	3	2021-04-01 10:45:00.000000000	2021-04-01 11:11:00.000000000
+Raquel	3	2021-04-01 10:56:00.000000000	2021-04-01 11:22:00.000000000
+Parsa	1	2021-04-01 10:56:00.000000000	2021-04-01 10:56:00.000000000
+Patrick	4	2021-04-01 10:45:00.000000000	2021-04-01 11:22:00.000000000
+Ricky	1	2021-04-01 10:56:00.000000000	2021-04-01 10:56:00.000000000
+CANROR 	1	2021-04-01 10:56:00.000000000	2021-04-01 10:56:00.000000000
+Rob	1	2021-04-01 11:22:00.000000000	2021-04-01 11:22:00.000000000
