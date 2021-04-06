@@ -23,6 +23,8 @@ need are:
 
 3.  Quicksight/Grafana if you want to create dashboards
 
+![Alt text](/images/Textract.png?raw=true "Textract in Action")
+
 Examples:
 
 Timestream query:
