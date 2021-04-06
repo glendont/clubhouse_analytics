@@ -10,11 +10,9 @@ this data off of screenshots.
 
 2.  Upload screenshots to a S3 bucket
 
-3.  Run this tool. Amazon Textract extracts the timestamp of the screenshot in the image and all usernames active in the event.
+3.  Run this script. Amazon Textract extracts the timestamp of the screenshot in the image and all usernames active in the event. Data is populated into Amazon Timestream.
 
-4.  Extracted data populates a timeseries database in Amazon Timestream
-
-5.  Timestream is populated with enough data to provide when a user was first seen, last seen, average count in the room, max count in the room, and additional metrics that may be of interest.
+5.  Query to generate analytics. There is enough data to identify: when a user was first seen, last seen, average count in the room, max count in the room, and other metrics.
 
 Currently there is no cloudformation to populate the infrastructure. I may spend the time to add this, but ultimately this is just a quick hack side project. I am crossing my fingers that analytics gets released and I can just archive this project. If you are interested in using it, the core pieces you
 need are:
