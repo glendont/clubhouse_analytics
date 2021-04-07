@@ -7,30 +7,29 @@ s3 = boto3.resource('s3')
 textract = boto3.client('textract')
 my_bucket = s3.Bucket('clubhouse-stats')
 
+session = boto3.Session()
+write_client = session.client('timestream-write', config=Config(
+    read_timeout=20, max_pool_connections=5000, retries={'max_attempts': 10}))
+query_client = session.client('timestream-query')
+
 # Document
 s3BucketName = "clubhouse-stats"
 
 DATABASE_NAME = "Clubhouse"
 TABLE_NAME = "participants"
-
 USER = 1
 
-
 def write(ActiveUser):
-    session = boto3.Session()
-    write_client = session.client('timestream-write', config=Config(
-        read_timeout=20, max_pool_connections=5000, retries={'max_attempts': 10}))
-    query_client = session.client('timestream-query')
 
     dimensions = [
         {'Name': 'room', 'Value': "AWS Startups"},
-        {'Name': 'Participant', 'Value': "Mackenzie"}
+        {'Name': 'Participant', 'Value': "Test"}
     ]
 
     records = []
     current_time = int(time.time() * 1000)
 
-    record = {
+    records = {
         'Time': str(current_time),
         'Dimensions': dimensions,
         'MeasureName': "Active",
@@ -38,13 +37,8 @@ def write(ActiveUser):
         'MeasureValueType': 'DOUBLE'
     }
 
-    print("Room {}".format(
-        len(records), USER))
-
-    # if len(records) > 0:
-    write_records(records)
-    records = []
-
+    if len(records) > 0:
+      write_records(records)  
 
 def write_records(records):
     try:
